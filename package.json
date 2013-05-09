@@ -2,8 +2,11 @@
   "name": "mojito-docs",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
-  "dependencies": {},
+  "main": "docs.js",
+  "dependencies": {
+    "wrench": "~1.5.1",
+    "yuidocjs": "~0.3.44"
+  },
   "devDependencies": {
     "tap": "~0.4.1"
   },
@@ -29,7 +32,7 @@
     "Isao Yagi <isao@yahoo-inc.com>",
     "Lichun Zhan <lzhan@yahoo-inc.com>",
     "Michael Ridgway <mcridgway@gmail.com>",
-    "Scott Shattuck",
+    "Scott Shattuck"
   ],
   "license": "BSD",
   "keywords": []
