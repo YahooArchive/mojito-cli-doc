@@ -1,0 +1,36 @@
+{
+    "exclude": {
+        "always": [
+            ".svn",
+            ".git",
+            "artifacts",
+            "CVS",
+            "node_modules"
+        ],
+        "mojito": [
+            "archetypes",
+            "bin",
+            "docs",
+            "examples",
+            "libs",
+            "management",
+            "middleware",
+            "tests"
+        ],
+        "app": [
+            "assets",
+            "index.js",
+            "lang",
+            "lib",
+            "server.js",
+            "start.js",
+            "tests"
+        ],
+        "mojit": [
+            "assets",
+            "lang",
+            "lib",
+            "tests"
+        ]
+    }
+}
