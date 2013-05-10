@@ -3,187 +3,152 @@
  * Copyrights licensed under the New BSD License.
  * See the accompanying LICENSE file for terms.
  */
+'use strict';
 
-
-/*jslint anon:true, sloppy:true, regexp:true, nomen:true, stupid:true*/
-
-
-var path = require('path'),
-    log = require('./lib/log'),
+var EOL = require('os').EOL,
+    resolve = require('path').resolve,
     mkdirp = require('mkdirp').sync,
     rimraf = require('rimraf').sync,
-    yuidocjs = require('yuidocjs'),
-    usage,
-    dir_mojito = path.join(__dirname, '../../');
+
+    util = require('./lib/utils'),
+    yuidoc = require('yuidocjs'),
+
+    excludes = require('./config').exclude,
+    usage;
 
 
-usage = '\nmojito docs [type] [name] [--server]\n' +
-    '\t- type: \'mojito\', \'app\' or \'mojit\'\n' +
-    '\t- name(required for type mojit): given name for creating' +
-    ' documentation\n\n' +
-    'Example Usage: mojito docs app foo\n' +
-    '\t(creates directory \'artifacts/docs/app/foo\' containing that ' +
-    'application\'s documentation)\n' +
-    'Example Usage: mojito docs mojit Bar\n' +
-    '\t(creates directory \'artifacts/docs/mojits/Bar\' containing that' +
-    ' mojit\'s documentation)\n' +
-    '\nOptions\n' +
-    '\t--server Start YUIDoc server instead of writing the documentation to disk';
+usage = [
+    'Usage: mojito docs <type> [name] [--directory] [--server] [--port]',
+    '  <type>  "mojito", "app" or "mojit", required',
+    '  [name]  name for docs, required for type "mojit"',
+    '',
+    'Example Usage: mojito docs app foo',
+    '  (creates directory "artifacts/docs/app/foo" containing that apps\'s docs)',
+    '',
+    'Example Usage: mojito docs mojit Bar --directory ~/mydocs',
+    '  (creates directory ~/mydocs/mojits/Bar containing docs for mojit Bar)',
+    '',
+    'Options',
+    '  --directory <path> Destination directory to save documentation in.',
+    '  --server           Launch YUIDoc server instead of writing to disk.',
+    '  --port <number>    Port number to start YUIDoc server on. Default is 3000.'
+].join(EOL);
 
 
-
-/**
- * Cleanup destination folder and generate the requested docs using yuidocjs.
- * See: http://yui.github.com/yuidoc/api/
- *      https://github.com/ryanmcgrath/wrench-js
- */
-var makeDocs = function(name, source, destination, excludes, options) {
-
-    var json,
+function makeDocs(name, source, env, cb) {
+    var dest,
+        json,
         builder,
-        docOptions;
+        docopts;
 
-    destination = path.join(destination,
-        name.replace(/[^a-z0-9]/ig, '_').replace(/(_)\1+/g, '_'));
+    dest = resolve(env.opts.directory, name.replace(/[^\w]+/g, '_'));
 
-    rimraf(destination);
-    mkdirp(destination);
+    // require --remove option to rm -rf?
+    rimraf(dest);
+    mkdirp(dest);
 
-    excludes = excludes.concat(['.svn', '.git', 'CVS', 'node_modules']);
-
-    docOptions = {
+    docopts = {
         paths: [ source ],
-        outdir: destination,
-        exclude: excludes.join(),
+        outdir: dest,
+        exclude: env.opts.exclude.join(),
         name: name,
-        port: 3000,
+        port: +env.opts.port || 3000,
         external: false
     };
 
-    if (options.server) {
-        yuidocjs.Server.start(docOptions);
-    } else {
-        json = (new yuidocjs.YUIDoc(docOptions)).run();
-        builder = new yuidocjs.DocBuilder(docOptions, json);
+    if (env.opts.server || env.opts.port) {
+        yuidoc.Server.start(docopts);
 
+    } else {
+        json = (new yuidoc.YUIDoc(docopts)).run();
+        builder = new yuidoc.DocBuilder(docopts, json);
         builder.compile(function() {
-            console.log('open ' + destination + '/index.html');
+            cb(null, 'Done, open ' + dest + '/index.html');
         });
     }
-};
+}
 
+function makeAppDocs(name, env, cb) {
+    var source = env.app && env.app.path;
 
-var makeMojitoDocs = function(name, options) {
+    if (!util.exists(source)) {
+        cb(util.errorWithUsage(5, 'Not an application directory'), usage);
 
-    var source = dir_mojito,
-        destination = path.join(process.cwd(), 'artifacts/docs'),
-        excludes = [
-            'archetypes',
-            'artifacts',
-            'libs',
-            'management',
-            'middleware',
-            'tests'
-        ];
+    } else {
+        makeDocs(name, source, env, cb);
+    }
+}
 
-    makeDocs(name, source, destination, excludes, options);
-};
-
-
-var makeAppDocs = function(name, options) {
-
-    var source = process.cwd(),
-        destination = path.join(process.cwd(), 'artifacts/docs/'),
-        excludes = [
-            'lang',
-            'lib',
-            'assets',
-            'tests',
-            'artifacts',
-            'index.js',
-            'server.js',
-            'start.js'
-        ];
-
-    utils.isMojitoApp(process.cwd(), exports.usage);
+function makeMojitDocs(name, env, cb) {
+    var source = util.findInPaths(['.', 'mojits'], name),
+        err;
 
     if (!name) {
-        name = 'Mojito Application';
+        err = 'Please specify mojit name';
+
+    } else if (!source) {
+        err = 'Cannot find mojit ' + name;
     }
 
-    makeDocs(name, source, destination, excludes, options);
-};
+    if (err) {
+        cb(util.errorWithUsage(5, err, usage));
 
+    } else {
+        makeDocs(name, source, env, cb);
+    }
+}
 
-var makeMojitDocs = function(name, options) {
+function makeMojitoDocs(name, env, cb) {
+    var source = env.mojito && env.mojito.path;
 
-    var source = path.join(process.cwd(), 'mojits', name),
-        destination = path.join(process.cwd(), 'artifacts/docs/mojits'),
-        excludes = [
-            'lang',
-            'lib',
-            'assets',
-            'tests',
-            'artifacts'
-        ];
+    if (!util.exists(source)) {
+        cb(util.error('Cannot find the Mojito library'));
 
-    utils.isMojitoApp(process.cwd(), exports.usage);
+    } else {
+        makeDocs(name, env.mojito.path, env, cb);
+    }
+}
 
-    if (!name) {
-        utils.error('Please specify mojit name', exports.usage);
-        return;
+function main(env, cb) {
+    var type = (env.args.shift() || '').toLowerCase(),
+        name = env.args.shift() || '',
+        exclude = env.opts.exclude || [];
+
+    // output dir
+    if (!env.opts.directory) {
+        env.opts.directory = resolve(env.cwd, 'artifacts', 'docs');
     }
 
-    makeDocs(name, source, destination, excludes, options);
-};
+    // directories to exclude
+    env.opts.exclude = exclude.concat(excludes.always, excludes[type]);
 
-
-/* Need to run the docs command in the mojito directory for mojito,
-   app directory for an app,
-   mojits directory for a mojit
-   e.g If I want to document an app paged-yql, I run the command
-   "mojito docs app paged-yql in the "~/part4" directory where the app resides
-*/
-
-
-function run(params, options, callback) {
-
-    var type = params[0] || '',
-        name = params[1] || '';
-
-    switch (type.toUpperCase()) {
-    case 'MOJITO':
-        makeMojitoDocs('mojito', options);
+    // exec
+    switch (type) {
+    case 'app':
+        makeAppDocs(name, env, cb);
         break;
-    case 'APP':
-        makeAppDocs(name, options);
+
+    case 'mojit':
+        makeMojitDocs(name, env, cb);
         break;
-    case 'MOJIT':
-        makeMojitDocs(name, options);
+
+    case 'mojito':
+        makeMojitoDocs(name || 'Mojito', env, cb);
         break;
+
     default:
-        utils.error('Unknown type', exports.usage);
+        cb(util.errorWithUsage(3, 'Unknown type', usage));
     }
 }
 
 
-/**
- * Standard usage string export.
- */
-exports.usage = usage;
+module.exports = main;
 
+module.exports.usage = usage;
 
-/**
- * Standard options list export.
- */
-exports.options = [{
-    shortName: 's',
-    longName: 'server',
-    hasValue: false
-}];
-
-
-/**
- * Standard run method hook export.
- */
-exports.run = run;
+module.exports.options = [
+    {shortName: 'd', hasValue: true,  longName: 'directory'},
+    {shortName: 'p', hasValue: true,  longName: 'port'},
+    {shortName: 'r', hasValue: true,  longName: 'remove'},
+    {shortName: 's', hasValue: false, longName: 'server'}
+];
