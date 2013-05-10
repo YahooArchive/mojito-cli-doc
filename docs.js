@@ -9,9 +9,9 @@
 
 
 var path = require('path'),
-    utils = require(path.join(__dirname, '../../management/utils')),
-    exec = require('child_process').exec,
-    wrench = require('wrench'),
+    log = require('./lib/log'),
+    mkdirp = require('mkdirp').sync,
+    rimraf = require('rimraf').sync,
     yuidocjs = require('yuidocjs'),
     usage,
     dir_mojito = path.join(__dirname, '../../');
@@ -46,8 +46,8 @@ var makeDocs = function(name, source, destination, excludes, options) {
     destination = path.join(destination,
         name.replace(/[^a-z0-9]/ig, '_').replace(/(_)\1+/g, '_'));
 
-    wrench.rmdirSyncRecursive(destination, true);
-    wrench.mkdirSyncRecursive(destination, '0744');
+    rimraf(destination);
+    mkdirp(destination);
 
     excludes = excludes.concat(['.svn', '.git', 'CVS', 'node_modules']);
 
