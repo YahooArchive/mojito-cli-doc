@@ -102,7 +102,7 @@ function makeMojitoDocs(name, env, cb) {
     var source = env.mojito && env.mojito.path;
 
     if (!util.exists(source)) {
-        cb(util.error('Cannot find the Mojito library'));
+        cb(util.error(7, 'Cannot find the Mojito library'));
 
     } else {
         makeDocs(name, env.mojito.path, env, cb);
@@ -143,6 +143,8 @@ function main(env, cb) {
 
 
 module.exports = main;
+
+module.exports.makeDocs = makeDocs;
 
 module.exports.usage = usage;
 
