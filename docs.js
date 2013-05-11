@@ -53,7 +53,8 @@ function makeDocs(name, source, env, cb) {
         exclude: env.opts.exclude.join(),
         name: name,
         port: +env.opts.port || 3000,
-        external: false
+        external: false,
+        quiet: env.opts.quiet
     };
 
     if (env.opts.server || env.opts.port) {
