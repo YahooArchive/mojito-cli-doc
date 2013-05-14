@@ -1,5 +1,5 @@
 {
-  "name": "mojito-docs",
+  "name": "mojito-cli-doc",
   "version": "0.0.1",
   "description": "",
   "main": "docs.js",
@@ -24,9 +24,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/yahoo/mojito-docs.git"
+    "url": "git://github.com/yahoo/mojito-cli-doc.git"
   },
-  "bugs": "https://github.com/yahoo/mojito-docs/issues",
+  "bugs": "https://github.com/yahoo/mojito-cli-doc/issues",
   "contributors": [
     "Caridy Patino <caridy@gmail.com>",
     "Drew Folta <drew@folta.net>",
