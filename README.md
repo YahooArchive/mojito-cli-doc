@@ -1,6 +1,7 @@
 mojito-docs
 ==========
-<!-- [![Build Status](https://travis-ci.org/yahoo/mojito-cli-doc.png)](https://travis-ci.org/yahoo/mojito-cli-doc) -->
+
+[![Build Status](https://travis-ci.org/yahoo/mojito-cli-doc.png?branch=develop)](https://travis-ci.org/yahoo/mojito-cli-doc)
 
 Generate API documentation for mojito, mojito apps, or mojits. Uses [yuidoc](https://github.com/yui/yuidoc).
 
