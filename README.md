@@ -1,4 +1,4 @@
-mojito-docs
+mojito-cli-doc
 ==========
 
 [![Build Status](https://travis-ci.org/yahoo/mojito-cli-doc.png?branch=develop)](https://travis-ci.org/yahoo/mojito-cli-doc)
