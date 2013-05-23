@@ -5,9 +5,9 @@ mojito-cli-doc
 
 Generate API documentation for mojito, mojito apps, or mojits. Uses [yuidoc](https://github.com/yui/yuidoc).
 
-Install
--------
 This package provides the `doc` command for the [`mojito-cli`](https://github.com/yahoo/mojito-cli) tool. Install `mojito-cli` to use the `mojito doc` command.
+
+    npm install -g mojito-cli
 
 Usage
 -----
@@ -24,17 +24,20 @@ To generate documentation for the Mojito framework itself:
     $ mojito docs mojito
 
 ### Options
-Specify output directory:
+
+By default, the generated files are saved in `./artifacts/docs/`.
+
+Specify output directory (if `--port` or `--server` are not used):
 
     --directory <path>
     -d <path>
 
-Serve the API docs over HTTP, without rendering them to the file system:
+Serve the API docs over HTTP, without rendering them to the file system (assumes `--port 3000`):
 
     --server
     -s
 
-Serve the API docs over HTTP on the specified port number. Assumes `--server`:
+Serve the API docs over HTTP, like option `--server`, using the specified port number:
 
     --port <number>
     -p <number>
