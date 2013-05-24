@@ -6,7 +6,7 @@ mojito-cli-docs
 `mojito-cli-docs` provides the `doc` command for `mojito-cli` that generates API documentation for Mojito, Mojito apps, 
 or mojits. Install `mojito-cli` and `mojito-cli-docs` with the following: `npm install -g mojito-cli`
 
-The `doc` command uses [yuidoc](https://github.com/yui/yuidoc) the API documentation.
+The `doc` command uses [yuidoc](https://github.com/yui/yuidoc) for generating the API documentation.
 
 Usage
 -----
@@ -36,7 +36,7 @@ To serve the API docs over HTTP without rendering them to the file system:
     --server
     -s
 
-To serve the API docs over HTTP on the specified port number (Assumes `--server`):
+To serve the API docs over HTTP on the specified port number (assumes `--server`):
 
     --port <number>
     -p <number>
