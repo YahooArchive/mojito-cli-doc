@@ -3,15 +3,20 @@ mojito-docs
 
 [![Build Status](https://travis-ci.org/yahoo/mojito-cli-doc.png?branch=develop)](https://travis-ci.org/yahoo/mojito-cli-doc)
 
-Generate API documentation for mojito, mojito apps, or mojits. Uses [yuidoc](https://github.com/yui/yuidoc).
+`mojito-docs` provides the `doc` command for `mojito-cli` that generates API documentation for Mojito, Mojito apps, 
+or mojits. The `doc` command uses [yuidoc](https://github.com/yui/yuidoc) the API documentation.
 
 Install
 -------
-This package provides the `doc` command for the [`mojito-cli`](https://github.com/yahoo/mojito-cli) tool. Install `mojito-cli` to use the `mojito doc` command.
+
+`mojito-docs` is a dependency of `mojito-cli`, so you just need to
+[install `mojito-cli`](https://github.com/yahoo/mojito-cli#install-mojito-cli)  to get `mojito-docs`. 
 
 Usage
 -----
-To generate documentation for a mojito application, including all mojits in it's `mojits/` sub-directory, run the following from the application directory:
+
+To generate documentation for a mojito application, including all the mojits in it's `mojits/` subdirectory, 
+run the following from the application directory:
 
     $ mojito docs app
 
@@ -24,17 +29,18 @@ To generate documentation for the Mojito framework itself:
     $ mojito docs mojito
 
 ### Options
-Specify output directory:
+
+To specify the output directory:
 
     --directory <path>
     -d <path>
 
-Serve the API docs over HTTP, without rendering them to the file system:
+To serve the API docs over HTTP without rendering them to the file system:
 
     --server
     -s
 
-Serve the API docs over HTTP on the specified port number. Assumes `--server`:
+To serve the API docs over HTTP on the specified port number (Assumes `--server`):
 
     --port <number>
     -p <number>
@@ -48,6 +54,8 @@ http://developer.yahoo.com/forum/Yahoo-Mojito
 Licensing and Contributions
 ---------------------------
 
-mojito-cli-doc is licensed under a BSD license (see LICENSE.txt). To contribute to the Mojito project, please see [Contributing](https://github.com/yahoo/mojito/wiki/Contributing-Code-to-Mojito).
+`mojito-cli-doc` is licensed under a BSD license (see LICENSE.txt). To contribute to the Mojito project, 
+please see [Contributing](https://github.com/yahoo/mojito/wiki/Contributing-Code-to-Mojito).
 
-The Mojito project is a [meritocratic, consensus-based community project](https://github.com/yahoo/mojito/wiki/Governance-Model) which allows anyone to contribute and gain additional responsibilities.
+The Mojito project is a [meritocratic, consensus-based community project](https://github.com/yahoo/mojito/wiki/Governance-Model),
+which allows anyone to contribute and gain additional responsibilities.
