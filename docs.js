@@ -17,24 +17,6 @@ var EOL = require('os').EOL,
     usage;
 
 
-usage = [
-    'Usage: mojito docs <type> [name] [--directory] [--server] [--port]',
-    '  <type>  "mojito", "app" or "mojit", required',
-    '  [name]  name for docs, required for type "mojit"',
-    '',
-    'Example Usage: mojito docs app foo',
-    '  (creates directory "artifacts/docs/app/foo" containing that apps\'s docs)',
-    '',
-    'Example Usage: mojito docs mojit Bar --directory ~/mydocs',
-    '  (creates directory ~/mydocs/mojits/Bar containing docs for mojit Bar)',
-    '',
-    'Options',
-    '  --directory <path> Destination directory to save documentation in.',
-    '  --server           Launch YUIDoc server instead of writing to disk.',
-    '  --port <number>    Port number to start YUIDoc server on. Default is 3000.'
-].join(EOL);
-
-
 function makeDocs(name, source, env, cb) {
     var dest,
         json,
@@ -148,7 +130,23 @@ module.exports = main;
 
 module.exports.makeDocs = makeDocs;
 
-module.exports.usage = usage;
+module.exports.usage = usage = [
+    'Usage: mojito docs <type> [name] [--directory] [--server] [--port]',
+    '  <type>  "mojito", "app" or "mojit", required',
+    '  [name]  name for docs, required for type "mojit"',
+    '',
+    'Examples:',
+    '  mojito docs app foo',
+    '  (creates directory "artifacts/docs/app/foo" containing that apps\'s docs)',
+    '',
+    '  mojito docs mojit Bar --directory ~/mydocs',
+    '  (creates directory ~/mydocs/mojits/Bar containing docs for mojit Bar)',
+    '',
+    'Options:',
+    '  --directory <path> Destination directory to save documentation in.',
+    '  --server           Launch YUIDoc server instead of writing to disk.',
+    '  --port <number>    Port number to start YUIDoc server on. Default is 3000.'
+].join(EOL);
 
 module.exports.options = [
     {shortName: 'd', hasValue: true, longName: 'directory'},
