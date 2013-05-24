@@ -10,6 +10,7 @@ var EOL = require('os').EOL,
     mkdirp = require('mkdirp').sync,
     rimraf = require('rimraf').sync,
 
+    log = require('./lib/log'),
     util = require('./lib/utils'),
     yuidoc = require('yuidocjs'),
 
@@ -39,6 +40,7 @@ function makeDocs(name, source, env, cb) {
         external: false,
         quiet: env.opts.quiet
     };
+    log.debug('yuidocjs options', docopts);
 
     if (env.opts.server || env.opts.port) {
         yuidoc.Server.start(docopts);
@@ -98,9 +100,13 @@ function main(env, cb) {
         name = env.args.shift() || '',
         exclude = env.opts.exclude || [];
 
+    if (env.opts.loglevel) {
+        log.level = env.opts.loglevel;
+    }
+
     // output dir
     if (!env.opts.directory) {
-        env.opts.directory = resolve(env.cwd, 'artifacts', 'docs');
+        env.opts.directory = resolve(env.cwd, 'artifacts/docs');
     }
 
     // directories to exclude
