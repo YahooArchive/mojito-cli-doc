@@ -43,8 +43,9 @@ function makeDocs(name, source, env, cb) {
 
     dest = resolve(env.opts.directory, name.replace(/[^\w]+/g, '_'));
 
-    // require --remove option to rm -rf?
-    rimraf(dest);
+    if (env.opts.remove) {
+        rimraf(dest);
+    }
     mkdirp(dest);
 
     docopts = {
@@ -150,9 +151,9 @@ module.exports.makeDocs = makeDocs;
 module.exports.usage = usage;
 
 module.exports.options = [
-    {shortName: 'd', hasValue: true,  longName: 'directory'},
+    {shortName: 'd', hasValue: true, longName: 'directory'},
     {shortName: 'e', hasValue: [String, Array],  longName: 'exclude'},
-    {shortName: 'p', hasValue: true,  longName: 'port'},
-    {shortName: 'r', hasValue: true,  longName: 'remove'},
+    {shortName: 'p', hasValue: true, longName: 'port'},
+    {shortName: 'r', hasValue: false, longName: 'remove'},
     {shortName: 's', hasValue: false, longName: 'server'}
 ];
