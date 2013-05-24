@@ -151,6 +151,7 @@ module.exports.usage = usage;
 
 module.exports.options = [
     {shortName: 'd', hasValue: true,  longName: 'directory'},
+    {shortName: 'e', hasValue: [String, Array],  longName: 'exclude'},
     {shortName: 'p', hasValue: true,  longName: 'port'},
     {shortName: 'r', hasValue: true,  longName: 'remove'},
     {shortName: 's', hasValue: false, longName: 'server'}
