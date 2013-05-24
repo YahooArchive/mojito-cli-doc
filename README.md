@@ -1,10 +1,10 @@
-mojito-docs
-==========
+mojito-cli-docs
+===============
 
 [![Build Status](https://travis-ci.org/yahoo/mojito-cli-doc.png?branch=develop)](https://travis-ci.org/yahoo/mojito-cli-doc)
 
-`mojito-docs` provides the `doc` command for `mojito-cli` that generates API documentation for Mojito, Mojito apps, 
-or mojits. Install them together with: `npm install -g mojito-cli`
+`mojito-cli-docs` provides the `doc` command for `mojito-cli` that generates API documentation for Mojito, Mojito apps, 
+or mojits. Install `mojito-cli` and `mojito-cli-docs` with the following: `npm install -g mojito-cli`
 
 The `doc` command uses [yuidoc](https://github.com/yui/yuidoc) the API documentation.
 
