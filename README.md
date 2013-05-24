@@ -10,7 +10,7 @@ Install
 -------
 
 `mojito-docs` is a dependency of `mojito-cli`, so you just need to
-[install `mojito-cli`](https://github.com/yahoo/mojito-cli#install-mojito-cli)  to get `mojito-docs`. 
+[install mojito-cli](https://github.com/yahoo/mojito-cli#install-mojito-cli)  to get `mojito-docs`. 
 
 Usage
 -----
