@@ -121,7 +121,7 @@ function main(env, cb) {
     }
 
     // directories to exclude
-    env.opts.exclude = exclude.concat(excludes.always, excludes[type]);
+    env.opts.exclude = exclude.concat(excludes.always, excludes[type] || []);
 
     // exec
     switch (type) {
