@@ -81,7 +81,7 @@ function makeAppDocs(name, env, cb) {
 }
 
 function makeMojitDocs(name, env, cb) {
-    var source = util.findInPaths(['.', 'mojits'], name),
+    var source = util.findInPaths(['mojits', '.'], name),
         err;
 
     if (!name) {

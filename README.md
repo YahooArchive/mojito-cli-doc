@@ -1,12 +1,15 @@
-mojito-cli-docs
-===============
+mojito-cli-doc
+==========
 
 [![Build Status](https://travis-ci.org/yahoo/mojito-cli-doc.png?branch=develop)](https://travis-ci.org/yahoo/mojito-cli-doc)
 
-`mojito-cli-docs` provides the `doc` command for `mojito-cli` that generates API documentation for Mojito, Mojito apps, 
-or mojits. Install `mojito-cli` and `mojito-cli-docs` with the following: `npm install -g mojito-cli`
+`mojito-cli-docs` provides the `doc` command for `mojito-cli`, that you can install with: `npm install -g mojito-cli`.
 
-The `doc` command uses [yuidoc](https://github.com/yui/yuidoc) for generating the API documentation.
+The `doc` command generates, or serves, API documentation for Mojito, Mojito apps, 
+or mojits.
+
+
+    npm install -g mojito-cli
 
 Usage
 -----
@@ -26,17 +29,20 @@ To generate documentation for the Mojito framework itself:
 
 ### Options
 
-To specify the output directory:
+By default, the generated files are saved in `./artifacts/docs/`.
+
+Specify output directory (if `--port` or `--server` are not used):
 
     --directory <path>
     -d <path>
 
-To serve the API docs over HTTP without rendering them to the file system:
+Serve the API docs over HTTP, without rendering them to the file system (assumes `--port 3000`):
 
     --server
     -s
 
-To serve the API docs over HTTP on the specified port number (assumes `--server`):
+
+Serve the API docs over HTTP, like option `--server`, using the specified port number:
 
     --port <number>
     -p <number>
