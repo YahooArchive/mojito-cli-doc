@@ -3,15 +3,19 @@ mojito-cli-doc
 
 [![Build Status](https://travis-ci.org/yahoo/mojito-cli-doc.png?branch=develop)](https://travis-ci.org/yahoo/mojito-cli-doc)
 
-Generate API documentation for mojito, mojito apps, or mojits. Uses [yuidoc](https://github.com/yui/yuidoc).
+`mojito-cli-docs` provides the `doc` command for `mojito-cli`, that you can install with: `npm install -g mojito-cli`.
 
-This package provides the `doc` command for the [`mojito-cli`](https://github.com/yahoo/mojito-cli) tool. Install `mojito-cli` to use the `mojito doc` command.
+The `doc` command generates, or serves, API documentation for Mojito, Mojito apps, 
+or mojits.
+
 
     npm install -g mojito-cli
 
 Usage
 -----
-To generate documentation for a mojito application, including all mojits in it's `mojits/` sub-directory, run the following from the application directory:
+
+To generate documentation for a mojito application, including all the mojits in it's `mojits/` subdirectory, 
+run the following from the application directory:
 
     $ mojito docs app
 
@@ -37,6 +41,7 @@ Serve the API docs over HTTP, without rendering them to the file system (assumes
     --server
     -s
 
+
 Serve the API docs over HTTP, like option `--server`, using the specified port number:
 
     --port <number>
@@ -51,6 +56,8 @@ http://developer.yahoo.com/forum/Yahoo-Mojito
 Licensing and Contributions
 ---------------------------
 
-mojito-cli-doc is licensed under a BSD license (see LICENSE.txt). To contribute to the Mojito project, please see [Contributing](https://github.com/yahoo/mojito/wiki/Contributing-Code-to-Mojito).
+`mojito-cli-doc` is licensed under a BSD license (see LICENSE.txt). To contribute to the Mojito project, 
+please see [Contributing](https://github.com/yahoo/mojito/wiki/Contributing-Code-to-Mojito).
 
-The Mojito project is a [meritocratic, consensus-based community project](https://github.com/yahoo/mojito/wiki/Governance-Model) which allows anyone to contribute and gain additional responsibilities.
+The Mojito project is a [meritocratic, consensus-based community project](https://github.com/yahoo/mojito/wiki/Governance-Model),
+which allows anyone to contribute and gain additional responsibilities.
