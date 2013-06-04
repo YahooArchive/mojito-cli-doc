@@ -1,7 +1,7 @@
 {
   "name": "mojito-cli-doc",
   "version": "0.0.1",
-  "description": "",
+  "description": "Provide the doc command, to generate api docs, for mojito-cli",
   "main": "docs.js",
   "dependencies": {
     "mkdirp": "~0.3.5",
@@ -37,5 +37,5 @@
     "Scott Shattuck"
   ],
   "license": "BSD",
-  "keywords": []
+  "keywords": ["mojito", "yui", "api", "doc"]
 }
