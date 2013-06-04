@@ -10,29 +10,12 @@ var EOL = require('os').EOL,
     mkdirp = require('mkdirp').sync,
     rimraf = require('rimraf').sync,
 
+    log = require('./lib/log'),
     util = require('./lib/utils'),
     yuidoc = require('yuidocjs'),
 
     excludes = require('./config').exclude,
     usage;
-
-
-usage = [
-    'Usage: mojito docs <type> [name] [--directory] [--server] [--port]',
-    '  <type>  "mojito", "app" or "mojit", required',
-    '  [name]  name for docs, required for type "mojit"',
-    '',
-    'Example Usage: mojito docs app foo',
-    '  (creates directory "artifacts/docs/app/foo" containing that apps\'s docs)',
-    '',
-    'Example Usage: mojito docs mojit Bar --directory ~/mydocs',
-    '  (creates directory ~/mydocs/mojits/Bar containing docs for mojit Bar)',
-    '',
-    'Options',
-    '  --directory <path> Destination directory to save documentation in.',
-    '  --server           Launch YUIDoc server instead of writing to disk.',
-    '  --port <number>    Port number to start YUIDoc server on. Default is 3000.'
-].join(EOL);
 
 
 function makeDocs(name, source, env, cb) {
@@ -43,8 +26,9 @@ function makeDocs(name, source, env, cb) {
 
     dest = resolve(env.opts.directory, name.replace(/[^\w]+/g, '_'));
 
-    // require --remove option to rm -rf?
-    rimraf(dest);
+    if (env.opts.remove) {
+        rimraf(dest);
+    }
     mkdirp(dest);
 
     docopts = {
@@ -56,6 +40,7 @@ function makeDocs(name, source, env, cb) {
         external: false,
         quiet: env.opts.quiet
     };
+    log.debug('yuidocjs options', docopts);
 
     if (env.opts.server || env.opts.port) {
         yuidoc.Server.start(docopts);
@@ -115,13 +100,17 @@ function main(env, cb) {
         name = env.args.shift() || '',
         exclude = env.opts.exclude || [];
 
+    if (env.opts.loglevel) {
+        log.level = env.opts.loglevel;
+    }
+
     // output dir
     if (!env.opts.directory) {
-        env.opts.directory = resolve(env.cwd, 'artifacts', 'docs');
+        env.opts.directory = resolve(env.cwd, 'artifacts/docs');
     }
 
     // directories to exclude
-    env.opts.exclude = exclude.concat(excludes.always, excludes[type]);
+    env.opts.exclude = exclude.concat(excludes.always, excludes[type] || []);
 
     // exec
     switch (type) {
@@ -147,11 +136,28 @@ module.exports = main;
 
 module.exports.makeDocs = makeDocs;
 
-module.exports.usage = usage;
+module.exports.usage = usage = [
+    'Usage: mojito docs <type> [name] [--directory] [--server] [--port]',
+    '  <type>  "mojito", "app" or "mojit", required',
+    '  [name]  name for docs, required for type "mojit"',
+    '',
+    'Examples:',
+    '  mojito docs app foo',
+    '  (creates directory "artifacts/docs/app/foo" containing that apps\'s docs)',
+    '',
+    '  mojito docs mojit Bar --directory ~/mydocs',
+    '  (creates directory ~/mydocs/mojits/Bar containing docs for mojit Bar)',
+    '',
+    'Options:',
+    '  --directory <path> Destination directory to save documentation in.',
+    '  --server           Launch YUIDoc server instead of writing to disk.',
+    '  --port <number>    Port number to start YUIDoc server on. Default is 3000.'
+].join(EOL);
 
 module.exports.options = [
-    {shortName: 'd', hasValue: true,  longName: 'directory'},
-    {shortName: 'p', hasValue: true,  longName: 'port'},
-    {shortName: 'r', hasValue: true,  longName: 'remove'},
+    {shortName: 'd', hasValue: true, longName: 'directory'},
+    {shortName: 'e', hasValue: [String, Array],  longName: 'exclude'},
+    {shortName: 'p', hasValue: true, longName: 'port'},
+    {shortName: 'r', hasValue: false, longName: 'remove'},
     {shortName: 's', hasValue: false, longName: 'server'}
 ];
