@@ -17,7 +17,9 @@ Usage
 To generate documentation for a mojito application, including all the mojits in it's `mojits/` subdirectory, 
 run the following from the application directory:
 
-    $ mojito docs app
+    $ mojito docs app [name]
+
+Optional `name` if provided, is used as the sub-directory name to save the generated API docs. See Options below.
 
 To generate documentation for a specific mojit, run the following from the application directory:
 
@@ -29,7 +31,7 @@ To generate documentation for the Mojito framework itself:
 
 ### Options
 
-By default, the generated files are saved in `./artifacts/docs/`.
+By default, the generated files are saved in `./artifacts/docs/`, or if a `name` argument is provided, `./artifacts/docs/<name>`.
 
 Specify output directory (if `--port` or `--server` are not used):
 

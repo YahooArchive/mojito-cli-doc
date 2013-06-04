@@ -4,7 +4,6 @@
             ".svn",
             ".git",
             "artifacts",
-            "CVS",
             "node_modules"
         ],
         "mojito": [
