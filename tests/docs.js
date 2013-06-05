@@ -42,6 +42,16 @@ test('mojito docs mojit (no name)', function(t) {
     fn(getEnv(['mojit']), cb)
 });
 
+test('mojito docs nonesuch', function(t) {
+
+    function cb(err, msg) {
+        t.ok(err.message.match(/Unknown type/));
+    }
+
+    t.plan(1);
+    fn(getEnv(['nonesuch']), cb)
+});
+
 test('mojito docs mojit nonesuch', function(t) {
 
     function cb(err, msg) {
