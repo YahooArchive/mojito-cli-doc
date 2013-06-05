@@ -6,7 +6,7 @@
 'use strict';
 
 var EOL = require('os').EOL,
-    resolve = require('path').resolve,
+    path = require('path'),
     mkdirp = require('mkdirp').sync,
     rimraf = require('rimraf').sync,
 
@@ -24,7 +24,8 @@ function makeDocs(name, source, env, cb) {
         builder,
         docopts;
 
-    dest = resolve(env.opts.directory, name.replace(/[^\w]+/g, '_'));
+    // BC.. remove?
+    dest = path.resolve(env.opts.directory, name.replace(/[^\w]+/g, '_'));
 
     if (env.opts.remove) {
         rimraf(dest);
@@ -59,10 +60,15 @@ function makeAppDocs(name, env, cb) {
 
     if (!util.exists(source)) {
         cb(util.errorWithUsage(5, 'Not an application directory'), usage);
-
-    } else {
-        makeDocs(name, source, env, cb);
+        return;
     }
+
+    if (!name) {
+        name = env.app.name || 'app';
+        log.info('No name specified, using "%s"', name);
+    }
+
+    makeDocs(name, source, env, cb);
 }
 
 function makeMojitDocs(name, env, cb) {
@@ -70,7 +76,7 @@ function makeMojitDocs(name, env, cb) {
         err;
 
     if (!name) {
-        err = 'Please specify mojit name';
+        err = 'Please specify mojit name or path.';
 
     } else if (!source) {
         err = 'Cannot find mojit ' + name;
@@ -80,7 +86,7 @@ function makeMojitDocs(name, env, cb) {
         cb(util.errorWithUsage(5, err, usage));
 
     } else {
-        makeDocs(name, source, env, cb);
+        makeDocs(path.basename(name), source, env, cb);
     }
 }
 
@@ -96,7 +102,7 @@ function makeMojitoDocs(name, env, cb) {
 }
 
 function main(env, cb) {
-    var type = (env.args.shift() || '').toLowerCase(),
+    var type = (env.args.shift() || 'app').toLowerCase(),
         name = env.args.shift() || '',
         exclude = env.opts.exclude || [];
 
@@ -106,7 +112,7 @@ function main(env, cb) {
 
     // output dir
     if (!env.opts.directory) {
-        env.opts.directory = resolve(env.cwd, 'artifacts/docs');
+        env.opts.directory = path.resolve(env.cwd, 'artifacts/docs');
     }
 
     // directories to exclude
@@ -137,7 +143,7 @@ module.exports = main;
 module.exports.makeDocs = makeDocs;
 
 module.exports.usage = usage = [
-    'Usage: mojito docs <type> [name] [--directory] [--server] [--port]',
+    'Usage: mojito doc <type> [name] [--directory] [--server] [--port]',
     '  <type>  "mojito", "app" or "mojit", required',
     '  [name]  name for docs, required for type "mojit"',
     '',
@@ -145,7 +151,10 @@ module.exports.usage = usage = [
     '  mojito docs app foo',
     '  (creates directory "artifacts/docs/app/foo" containing that apps\'s docs)',
     '',
-    '  mojito docs mojit Bar --directory ~/mydocs',
+    '  mojito doc',
+    '  (same as above, uses name in package.json for app name)',
+    '',
+    '  mojito doc mojit Bar --directory ~/mydocs',
     '  (creates directory ~/mydocs/mojits/Bar containing docs for mojit Bar)',
     '',
     'Options:',
