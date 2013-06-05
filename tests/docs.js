@@ -12,10 +12,10 @@ function getEnv(args, opts) {
     };
 }
 
-test('mojito docs (no args)', function(t) {
+test('mojito docs (no args) // now same as `mojito doc app`', function(t) {
 
     function cb(err, msg) {
-        t.ok(err.message.match(/Unknown type/));
+        t.ok(err.message.match(/Not an application dir/));
     }
 
     t.plan(1);

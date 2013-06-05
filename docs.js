@@ -59,10 +59,15 @@ function makeAppDocs(name, env, cb) {
 
     if (!util.exists(source)) {
         cb(util.errorWithUsage(5, 'Not an application directory'), usage);
-
-    } else {
-        makeDocs(name, source, env, cb);
+        return;
     }
+
+    if (!name) {
+        name = env.app.name;
+        log.info('No name specified, using "%s" from package.json', name);
+    }
+
+    makeDocs(name, source, env, cb);
 }
 
 function makeMojitDocs(name, env, cb) {
@@ -70,7 +75,7 @@ function makeMojitDocs(name, env, cb) {
         err;
 
     if (!name) {
-        err = 'Please specify mojit name';
+        err = 'Please specify mojit name or path.';
 
     } else if (!source) {
         err = 'Cannot find mojit ' + name;
@@ -80,6 +85,7 @@ function makeMojitDocs(name, env, cb) {
         cb(util.errorWithUsage(5, err, usage));
 
     } else {
+        env.opts.directory = resolve(env.opts.directory, source);
         makeDocs(name, source, env, cb);
     }
 }
@@ -91,12 +97,13 @@ function makeMojitoDocs(name, env, cb) {
         cb(util.error(7, 'Cannot find the Mojito library'));
 
     } else {
+        env.opts.directory = resolve(env.opts.directory, 'mojito');
         makeDocs(name, env.mojito.path, env, cb);
     }
 }
 
 function main(env, cb) {
-    var type = (env.args.shift() || '').toLowerCase(),
+    var type = (env.args.shift() || 'app').toLowerCase(),
         name = env.args.shift() || '',
         exclude = env.opts.exclude || [];
 
@@ -137,7 +144,7 @@ module.exports = main;
 module.exports.makeDocs = makeDocs;
 
 module.exports.usage = usage = [
-    'Usage: mojito docs <type> [name] [--directory] [--server] [--port]',
+    'Usage: mojito doc <type> [name] [--directory] [--server] [--port]',
     '  <type>  "mojito", "app" or "mojit", required',
     '  [name]  name for docs, required for type "mojit"',
     '',
@@ -145,7 +152,10 @@ module.exports.usage = usage = [
     '  mojito docs app foo',
     '  (creates directory "artifacts/docs/app/foo" containing that apps\'s docs)',
     '',
-    '  mojito docs mojit Bar --directory ~/mydocs',
+    '  mojito doc',
+    '  (same as above, uses name in package.json for app name)',
+    '',
+    '  mojito doc mojit Bar --directory ~/mydocs',
     '  (creates directory ~/mydocs/mojits/Bar containing docs for mojit Bar)',
     '',
     'Options:',
