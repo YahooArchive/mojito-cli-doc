@@ -97,7 +97,6 @@ function makeMojitoDocs(name, env, cb) {
         cb(util.error(7, 'Cannot find the Mojito library'));
 
     } else {
-        env.opts.directory = path.resolve(env.opts.directory, 'mojito');
         makeDocs(name, env.mojito.path, env, cb);
     }
 }
