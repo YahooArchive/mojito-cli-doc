@@ -6,7 +6,7 @@
 'use strict';
 
 var EOL = require('os').EOL,
-    resolve = require('path').resolve,
+    path = require('path'),
     mkdirp = require('mkdirp').sync,
     rimraf = require('rimraf').sync,
 
@@ -24,7 +24,7 @@ function makeDocs(name, source, env, cb) {
         builder,
         docopts;
 
-    dest = resolve(env.opts.directory, name.replace(/[^\w]+/g, '_'));
+    dest = path.resolve(env.opts.directory, name.replace(/[^\w]+/g, '_'));
 
     if (env.opts.remove) {
         rimraf(dest);
@@ -85,8 +85,7 @@ function makeMojitDocs(name, env, cb) {
         cb(util.errorWithUsage(5, err, usage));
 
     } else {
-        env.opts.directory = resolve(env.opts.directory, source);
-        makeDocs(name, source, env, cb);
+        makeDocs(path.basename(name), source, env, cb);
     }
 }
 
@@ -97,7 +96,7 @@ function makeMojitoDocs(name, env, cb) {
         cb(util.error(7, 'Cannot find the Mojito library'));
 
     } else {
-        env.opts.directory = resolve(env.opts.directory, 'mojito');
+        env.opts.directory = path.resolve(env.opts.directory, 'mojito');
         makeDocs(name, env.mojito.path, env, cb);
     }
 }
@@ -113,7 +112,7 @@ function main(env, cb) {
 
     // output dir
     if (!env.opts.directory) {
-        env.opts.directory = resolve(env.cwd, 'artifacts/docs');
+        env.opts.directory = path.resolve(env.cwd, 'artifacts/docs');
     }
 
     // directories to exclude
