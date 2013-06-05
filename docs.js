@@ -24,6 +24,7 @@ function makeDocs(name, source, env, cb) {
         builder,
         docopts;
 
+    // BC.. remove?
     dest = path.resolve(env.opts.directory, name.replace(/[^\w]+/g, '_'));
 
     if (env.opts.remove) {
@@ -63,8 +64,8 @@ function makeAppDocs(name, env, cb) {
     }
 
     if (!name) {
-        name = env.app.name;
-        log.info('No name specified, using "%s" from package.json', name);
+        name = env.app.name || 'app';
+        log.info('No name specified, using "%s"', name);
     }
 
     makeDocs(name, source, env, cb);
