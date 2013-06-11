@@ -154,7 +154,7 @@ module.exports.usage = usage = [
     '  mojito doc',
     '  (same as above, uses name in package.json for app name)',
     '',
-    '  mojito doc mojit Bar --directory ~/mydocs',
+    '  mojito doc mojit Bar --directory ~/mydocs --exclude lib/vendor',
     '  (creates directory ~/mydocs/mojits/Bar containing docs for mojit Bar)',
     '',
     'Options:',
