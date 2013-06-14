@@ -143,7 +143,7 @@ module.exports = main;
 module.exports.makeDocs = makeDocs;
 
 module.exports.usage = usage = [
-    'Usage: mojito doc <type> [name] [--directory] [--server] [--port]',
+    'Usage: mojito doc [options] <type> [name]',
     '  <type>  "mojito", "app" or "mojit", required',
     '  [name]  name for docs, required for type "mojit"',
     '',
@@ -158,9 +158,10 @@ module.exports.usage = usage = [
     '  (creates directory ~/mydocs/mojits/Bar containing docs for mojit Bar)',
     '',
     'Options:',
-    '  --directory <path> Destination directory to save documentation in.',
-    '  --server           Launch YUIDoc server instead of writing to disk.',
-    '  --port <number>    Port number to start YUIDoc server on. Default is 3000.'
+    '  --directory <path>  Destination directory to save documentation in.',
+    '  --exclude <pattern> Exclude files or directories. Repeatable.',
+    '  --server            Launch YUIDoc server instead of writing to disk.',
+    '  --port <number>     Port number to start YUIDoc server on. Default is 3000.'
 ].join(EOL);
 
 module.exports.options = [
