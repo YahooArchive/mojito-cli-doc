@@ -65,7 +65,7 @@ function makeAppDocs(name, env, cb) {
 
     if (!name) {
         name = env.app.name || 'app';
-        log.info('No name specified, using "%s"', name);
+        log.info('No name specified, using:', name);
     }
 
     makeDocs(name, source, env, cb);
