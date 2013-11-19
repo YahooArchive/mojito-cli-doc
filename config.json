@@ -18,11 +18,8 @@
         ],
         "app": [
             "assets",
-            "index.js",
             "lang",
             "lib",
-            "server.js",
-            "start.js",
             "tests"
         ],
         "mojit": [

@@ -31,12 +31,19 @@ To generate documentation for the Mojito framework itself:
 
 ### Options
 
-By default, the generated files are saved in `./artifacts/docs/`, or if a `name` argument is provided, `./artifacts/docs/<name>`.
-
 Specify output directory (if `--port` or `--server` are not used):
 
     --directory <path>
     -d <path>
+
+By default, the generated files are saved in `./artifacts/docs/`, or if a `name` argument is provided, `./artifacts/docs/<name>`.
+
+Exclude some files or directories from being processed:
+
+    --exclude <pattern>
+    -e <pattern>
+
+This option can be repeated, for example `mojito doc --exclude middleware --exclude build` will exclude files or directories with "middleware" or "build" in their names.
 
 Serve the API docs over HTTP, without rendering them to the file system (assumes `--port 3000`):
 
