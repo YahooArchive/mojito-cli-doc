@@ -1,6 +1,6 @@
 {
   "name": "mojito-cli-doc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Provide the `doc` command, to generate API docs, for `mojito-cli`",
   "main": "docs.js",
   "dependencies": {
